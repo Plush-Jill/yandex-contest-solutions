@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <format>
+#include <thread>
 
 
 class Crossword {
@@ -123,11 +124,9 @@ public:
     }
 };
 
-
 int main() {
     int row_count;
     int column_count;
-
     std::cin >> row_count >> column_count;
 
     Crossword crossword {row_count, column_count};
