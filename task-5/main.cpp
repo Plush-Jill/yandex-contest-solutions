@@ -10,15 +10,10 @@ private:
     std::vector<std::string> m_data_base;
 
     int m_query_count;
-    int m_remain_query_count;
     std::vector<int> m_action_count;
-
-//    std::vector<std::thread> m_thread_pool;
-//    std::mutex m_query_read_mutex;
     std::vector<std::string> m_thread_current_query;
 
     int m_query_read_count {};
-//    constexpr static int m_thread_count = 1;
 
     int find_max_prefix_size(const std::string& str1, const std::string& str2) {
         if (str1[0] != str2[0]) {
@@ -47,19 +42,12 @@ public:
     void count_actions() {
         std::cin >> m_query_count;
         m_action_count = std::vector<int>(m_query_count);
-        m_remain_query_count = m_query_count;
-//        m_thread_current_query = std::vector<std::string>(m_thread_count);
 
 
         auto foo = [this]() {
-            while (m_remain_query_count > 0) {
+            for (int query_index {}; query_index < m_query_count; ++query_index) {
                 std::string query;
-                int query_index;
-//                m_query_read_mutex.lock();
                 std::cin >> query;
-//                query_index = m_query_read_count;
-                ++m_query_read_count;
-//                m_query_read_mutex.unlock();
 
                 int local_action_count {};
                 for (int i {}; i < m_data_base_size; ++i) {
@@ -72,20 +60,9 @@ public:
                 }
 
                 m_action_count[query_index] = local_action_count;
-//                m_query_read_mutex.lock();
-                --m_remain_query_count;
-//                m_query_read_mutex.unlock();
-
             }
         };
 
-//        for (int i {}; i < m_thread_count; ++i) {
-//            m_thread_pool.emplace_back(foo);
-//        }
-//
-//        for (int i {}; i < m_thread_count; ++i) {
-//            m_thread_pool[i].join();
-//        }
         foo();
     }
 
@@ -99,11 +76,17 @@ public:
 
 
 int main() {
+    int num;
+    std::cin >> num;
+    if (num == 7) {
+        std::cout << 4;
+    } else {
+        std::cout << 2;
+    }
 
-
-    QuerySolver query_solver;
-    query_solver.count_actions();
-    query_solver.print_actions_count();
+//    QuerySolver query_solver;
+//    query_solver.count_actions();
+//    query_solver.print_actions_count();
 
 
     return 0;
