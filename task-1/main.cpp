@@ -9,7 +9,6 @@ private:
     int m_column_count;
     std::vector<std::vector<char>> m_grid;
     std::string m_min_word {"zzzzzzzzz"};
-    int m_counter {};
     enum class SearchDirection {
         Right,
         Down
@@ -49,37 +48,21 @@ private:
         }
 
         char current_symbol = m_grid[row][column];
-//        std::cout << std::format("{}. pos: ({}, {}), char: {}, dir: {}",
-//                                 m_counter++,
-//                                 row,
-//                                 column,
-//                                 current_symbol,
-//                                 direction == SearchDirection::Down ? "down" : "right") << std::endl;
 
         if (current_symbol == '#') {
-//            std::cout << "got \'#\'" << std::endl;
-//            std::cout << std::format("{} < {} ?", accumulated_word, m_min_word) << std::endl;
             if (accumulated_word < m_min_word && accumulated_word.size() >= 2) {
-//                std::cout << std::format("{}. \"{}\" < \"{}\", \"{}\" now is new min word", m_counter, accumulated_word,
-//                                         m_min_word, accumulated_word) << std::endl;
                 m_min_word = accumulated_word;
                 return;
             }
         } else if (row == m_row_count - 1 && direction == SearchDirection::Down) {
             accumulated_word += current_symbol;
-//            std::cout << std::format("{} < {} ?", accumulated_word, m_min_word) << std::endl;
             if (accumulated_word < m_min_word && accumulated_word.size() >= 2) {
-//                std::cout << std::format("{}. \"{}\" < \"{}\", \"{}\" now is new min word", m_counter, accumulated_word,
-//                                         m_min_word, accumulated_word) << std::endl;
                 m_min_word = accumulated_word;
                 return;
             }
         } else if (column == m_column_count - 1 && direction == SearchDirection::Right) {
             accumulated_word += current_symbol;
-//            std::cout << std::format("{} < {} ?", accumulated_word, m_min_word) << std::endl;
             if (accumulated_word < m_min_word && accumulated_word.size() >= 2) {
-//                std::cout << std::format("{}. \"{}\" < \"{}\", \"{}\" now is new min word", m_counter, accumulated_word,
-//                                         m_min_word, accumulated_word) << std::endl;
                 m_min_word = accumulated_word;
                 return;
             }
@@ -148,8 +131,6 @@ int main() {
     std::cin >> row_count >> column_count;
 
     Crossword crossword {row_count, column_count};
-//    crossword.print_crossword();
-//    std::cout << "\n\n";
     std::cout << crossword.find_min_word();
     return 0;
 }
